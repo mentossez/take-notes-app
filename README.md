@@ -1,8 +1,6 @@
-# learn-vue
+# Simple Notes App using Vue.js
 
-Simple Notes App using Vue.js
-
-### for learning purpose
+##### for learning purpose
 
 ## Project Setup
 
