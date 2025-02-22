@@ -1,11 +1,16 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
-defineProps({
+import { defineProps, defineEmits, ref } from 'vue';
+import { auth, db } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
+
+const props = defineProps({
     note: {
         type: Object,
         default: null
     }
 });
+
+const noteObj = ref(props.note);
 
 const emit = defineEmits(['deleteNote']);
 
@@ -13,13 +18,49 @@ const deleteNote = (id) => {
     emit('deleteNote', id);
 }
 
+const saveNote = async () => {
+  try {
+    const user = auth.currentUser;
+    if (!user) {
+      errorMessage.value = "User not logged in!";
+      return;
+    }
+    
+    const notesCollection = collection(db, `users/${user.uid}/notes`);
+
+    await addDoc(notesCollection, {
+      title: noteObj?.title ?? '',
+      description: noteObj?.description ?? '',
+    });
+
+    alert("Note saved!");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const saveTitle = (title) => {
+    if (title !== noteObj.title) {
+        noteObj.title = title;
+        console.log(noteObj.title);
+    }
+}
+
+const saveDescription = (description) => {
+    if (description !== noteObj.description) {
+        noteObj.description = description;
+        console.log(noteObj.description);
+    }
+}
+
 </script>
 
 <template>
     <div class="note-card-main-container">
-        <input placeholder="Title" :value="note.title">
-        <textarea placeholder="Start Writing Here">{{ note.description }}</textarea>
+        <input @focusout="saveTitle(note.title)" placeholder="Title" v-model="note.title">
+        <textarea @focusout="saveDescription(note.description)" placeholder="Start Writing Here" v-model="note.description">{{ note.description }}</textarea>
         <span @click="deleteNote(note.id)" class="trash-button"><i class="bi bi-trash3-fill"></i></span>
+        <button @click="saveNote" >Save</button>
     </div>
 </template>
 

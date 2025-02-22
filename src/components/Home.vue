@@ -1,7 +1,10 @@
 <script setup>
 
 import NoteCard from './NoteCard.vue';
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue';
+import { auth, db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
+import router from '@/router';
 
 const isAddNewNote = ref(false);
 
@@ -25,6 +28,24 @@ const handleDeleteNote = (event) => {
         data.notes = data.notes.filter(note => note.id !== event);
     }
 }
+
+const fetchNotes = async () => {
+  try {
+    const user = auth.currentUser;
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+    const notesCollectionRef = collection(db, `users/${user.uid}/notes`);
+    const querySnapshot = await getDocs(notesCollectionRef);
+    data.notes = querySnapshot.docs.map(doc => ({ ...doc.data() }));
+    data.notes = data.notes.reverse();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+onMounted(fetchNotes);
 
 </script>
 
