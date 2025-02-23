@@ -63,7 +63,7 @@ textarea {
     height: 74%;
     background: #faff69;
     padding: 15px;
-    font-family: cursive;
+    font-style: italic;
     resize: none;
     border: none;
     font-size: 16px;
@@ -78,7 +78,7 @@ input {
     border: none;
     padding: 15px;
     font-size: 20px;
-    font-family: cursive;
+    font-style: italic;
 }
 
 textarea:focus,
