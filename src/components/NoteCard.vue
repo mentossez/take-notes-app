@@ -1,7 +1,5 @@
 <script setup>
 import { defineProps, defineEmits, ref } from 'vue';
-import { auth, db } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
 
 const props = defineProps({
     note: {
@@ -10,57 +8,24 @@ const props = defineProps({
     }
 });
 
-const noteObj = ref(props.note);
-
-const emit = defineEmits(['deleteNote']);
+const emit = defineEmits(['deleteNote', 'updateNote']);
 
 const deleteNote = (id) => {
     emit('deleteNote', id);
 }
 
-const saveNote = async () => {
-  try {
-    const user = auth.currentUser;
-    if (!user) {
-      errorMessage.value = "User not logged in!";
-      return;
-    }
-    
-    const notesCollection = collection(db, `users/${user.uid}/notes`);
-
-    await addDoc(notesCollection, {
-      title: noteObj?.title ?? '',
-      description: noteObj?.description ?? '',
-    });
-
-    alert("Note saved!");
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const saveTitle = (title) => {
-    if (title !== noteObj.title) {
-        noteObj.title = title;
-        console.log(noteObj.title);
-    }
-}
-
-const saveDescription = (description) => {
-    if (description !== noteObj.description) {
-        noteObj.description = description;
-        console.log(noteObj.description);
-    }
+const updateNote = (note) => {
+    emit('updateNote', note);
 }
 
 </script>
 
 <template>
     <div class="note-card-main-container">
-        <input @focusout="saveTitle(note.title)" placeholder="Title" v-model="note.title">
-        <textarea @focusout="saveDescription(note.description)" placeholder="Start Writing Here" v-model="note.description">{{ note.description }}</textarea>
+        <input @focusout="updateNote(note)" placeholder="Title" v-model="note.title">
+        <textarea @focusout="updateNote(note)" placeholder="Start Writing Here"
+            v-model="note.description">{{ note.description }}</textarea>
         <span @click="deleteNote(note.id)" class="trash-button"><i class="bi bi-trash3-fill"></i></span>
-        <button @click="saveNote" >Save</button>
     </div>
 </template>
 
@@ -74,8 +39,27 @@ const saveDescription = (description) => {
     overflow: hidden;
 }
 
+@media screen and (max-width: 768px) {
+    .note-card-main-container {
+        width: 150px !important;
+        height: 230px !important;
+    }
+
+    textarea {
+        width: 78% !important;
+        height: 48% !important;
+        padding: 16px !important;
+    }
+
+    .trash-button {
+        bottom: -2px;
+    right: 4px;
+    font-size: 18px;
+    }
+}
+
 textarea {
-    width: 96% !important;
+    width: 96%;
     height: 74%;
     background: #faff69;
     padding: 15px;
@@ -111,6 +95,7 @@ input:focus {
     font-size: 20px;
     cursor: pointer;
 }
+
 .trash-button:hover {
     color: red;
 }
