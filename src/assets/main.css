@@ -5,13 +5,12 @@
   margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
-  display: flex;
-  justify-content: center;
-  margin-top: 10%;
 }
 
 @media screen and (max-width: 768px) {
   #app {
     padding: 8px;
+    display: flex;
+    justify-content: center;
   }
 }

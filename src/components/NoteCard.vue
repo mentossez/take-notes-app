@@ -41,7 +41,7 @@ const updateNote = (note) => {
 
 @media screen and (max-width: 768px) {
     .note-card-main-container {
-        width: 150px !important;
+        width: 140px !important;
         height: 230px !important;
     }
 
@@ -52,9 +52,9 @@ const updateNote = (note) => {
     }
 
     .trash-button {
-        bottom: -2px;
-    right: 4px;
-    font-size: 18px;
+        bottom: -2px !important;
+        right: 4px !important;
+        font-size: 18px !important;
     }
 }
 

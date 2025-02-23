@@ -127,6 +127,7 @@ body {
   width: 300px;
   text-align: center;
   justify-self: anchor-center;
+  margin-top: 10%;
 }
 
 .input-group {
