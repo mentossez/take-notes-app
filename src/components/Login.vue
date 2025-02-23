@@ -28,7 +28,7 @@ const validateUser = async (isExistingUser) => {
       email: email.value
     });
 
-    // showSpinner.value = false;
+    showSpinner.value = false;
     router.push('/home');
 
   } catch (error) {
@@ -42,7 +42,7 @@ const validateUser = async (isExistingUser) => {
     } else {
       errorMessage.value = 'Oops! Something went wrong, please try again!';
     }
-    // showSpinner.value = false;
+    showSpinner.value = false;
     console.log(error);
   }
 };
