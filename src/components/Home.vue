@@ -23,7 +23,7 @@ const addNewNote = () => {
 
 const fetchNotes = async () => {
     try {
-        const user = auth.currentUser;
+        const user = auth.currentUser || JSON.parse(sessionStorage.getItem('currentUser'));
         if (!user) {
             router.push('/login');
             return;
@@ -114,6 +114,7 @@ const logout = async () => {
     const auth = getAuth();
     try {
         await signOut(auth);
+        sessionStorage.setItem('currentUser', null)
         router.push('/login');
     } catch (error) {
         console.log(error);

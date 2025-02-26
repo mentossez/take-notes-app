@@ -29,6 +29,7 @@ const validateUser = async (isExistingUser) => {
     });
 
     showSpinner.value = false;
+    sessionStorage.setItem('currentUser', JSON.stringify(auth.currentUser));
     router.push('/home');
 
   } catch (error) {
