@@ -65,7 +65,7 @@ const validateEmail = () => {
     <!-- Email Input -->
     <div class="input-group">
       <label>Email</label>
-      <input type="email" placeholder="Enter your email" @keyup="checkIfValidForm" v-model="email" required />
+      <input type="email" placeholder="Enter your email" @keyup="checkIfValidForm" v-model="email" autocomplete="on" required />
       <p class="error-message" v-if="!isValidEmail">Please enter valid email</p>
     </div>
 
@@ -73,7 +73,7 @@ const validateEmail = () => {
     <div class="input-group password-group">
       <label>Password</label>
       <input :type="showPassword ? 'text' : 'password'" placeholder="Enter your password" @keyup="checkIfValidForm"
-        v-model="password" required />
+        v-model="password" autocomplete="on" required />
       <span class="eye-icon" @click="showPassword = !showPassword">
         {{ !showPassword ? '👁️' : '🙈' }}
       </span>

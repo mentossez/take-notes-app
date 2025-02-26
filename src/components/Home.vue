@@ -5,6 +5,7 @@ import { ref, reactive, onMounted } from 'vue';
 import { auth, db } from "../firebase";
 import { collection, getDocs, doc, addDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import router from '@/router';
+import { getAuth, signOut } from 'firebase/auth';
 
 const data = reactive({
     notes: []
@@ -109,12 +110,26 @@ const handleDeleteNote = async (noteId) => {
     }
 };
 
+const logout = async () => {
+    const auth = getAuth();
+    try {
+        await signOut(auth);
+        router.push('/login');
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 onMounted(fetchNotes);
 
 </script>
 
 <template>
+    <!-- //session error page after reload -->
     <div class="main-container">
+        <div class="header">
+            <button @click="logout" class="logout-button">Logout</button>
+        </div>
         <p v-if="!data.notes.length" style="font-style: italic; font-size: 16px; margin-bottom: 32px;">Start capturing
             your ideas now—tap below!</p>
         <button @click="addNewNote">+ Add new note</button>
@@ -130,6 +145,16 @@ onMounted(fetchNotes);
 .main-container {
     margin: 50px;
 }
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.logout-button:hover {
+    border: 1px solid red;
+} 
 
 @media screen and (max-width: 768px) {
     .main-container {
