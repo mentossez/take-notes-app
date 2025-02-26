@@ -1,6 +1,6 @@
 # Simple Notes App using Vue.js and Firebase
 
-## Live Website - https://take-notes-app-phi.vercel.app/login
+## Live Website - https://jot-it-app-phi.vercel.app/
 
 ##### for learning purpose
 
